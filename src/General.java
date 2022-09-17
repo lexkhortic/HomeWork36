@@ -7,8 +7,8 @@ public class General {
 
     public static int countCashRegisters = 3;
     public static ArrayList<CashRegister> cashRegisters = new ArrayList<>();
-    public static ExecutorService executor = Executors.newFixedThreadPool(countCashRegisters);
     public static ArrayList<Client> clients = new ArrayList<>();
+    public static ExecutorService executor = Executors.newFixedThreadPool(countCashRegisters);
 
     public static void main(String[] args) {
 
@@ -29,28 +29,28 @@ public class General {
         }
 
         while (clients.size() > 0) {
-            startWork(cashRegisters, clients);
+            try {
+                startWork();
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         int sumAll = cashRegisters
                 .stream()
                 .peek((el -> System.out.println(el.getNumber() + " сумма по операциям: " + el.getSumCash() + "$.")))
-                .mapToInt(el -> el.getSumCash()).sum();
+                .mapToInt(CashRegister::getSumCash).sum();
 
-        try {
-            Thread.sleep(1000);
-            System.out.println("Общая сумма по операциям: " + sumAll + "$.");
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("Общая сумма по операциям касс: " + sumAll + "$.");
     }
 
-    public static void startWork(ArrayList<CashRegister> cashRegisters, ArrayList<Client> clients) {
+    public static void startWork() {
         Iterator<Client> iterator = clients.iterator();
         cashRegisters.forEach(el -> {
             if (!clients.isEmpty()) {
                 el.setClient(iterator.next());
-                executor.execute(() -> el.selectionOperation());
+                executor.execute(el::selectionOperation);
                 iterator.remove();
             } else {
                 executor.shutdown();

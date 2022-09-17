@@ -3,12 +3,6 @@ public class CashRegister implements Operations{
     private int sumCash;
     private Client client;
 
-    public CashRegister(String number, int sumCash, Client client) {
-        this.number = number;
-        this.sumCash = sumCash;
-        this.client = client;
-    }
-
     public CashRegister(String number, int sumCash) {
         this.number = number;
         this.sumCash = sumCash;
@@ -68,7 +62,7 @@ public class CashRegister implements Operations{
             throw new IllegalArgumentException("Недостаточно денег для операции");
         } else {
             System.out.println("Клиент " + client.getName() + " снял(а)" +
-                    " " + client.getCash() + "$. " + Thread.currentThread().getName());
+                    " " + client.getCash() + "$. " + number + ": " + Thread.currentThread().getName());
             setSumCash(getSumCash() + client.getCash());
             client.setSum(resultSum);
         }
@@ -83,7 +77,7 @@ public class CashRegister implements Operations{
 
         double resultSum = client.getSum() + client.getCash();
         System.out.println("Клиент " + client.getName() + " пополнил(а) на " + client.getCash() + "$. "
-                + Thread.currentThread().getName());
+                + number + ": " + Thread.currentThread().getName());
         setSumCash(getSumCash() + client.getCash());
         client.setSum(resultSum);
 
@@ -101,7 +95,7 @@ public class CashRegister implements Operations{
             throw new IllegalArgumentException("Недостаточно денег для операции");
         } else {
             System.out.println("Клиент " + client.getName() + " оплатил(а) услугу №" +
-                    ((int) (Math.random() * 400) + 100) + " на " + client.getCash() + "$. " + Thread.currentThread().getName());
+                    ((int) (Math.random() * 400) + 100) + " на " + client.getCash() + "$. " + number + ": " + Thread.currentThread().getName());
             setSumCash(getSumCash() + client.getCash());
             client.setSum(resultSum);
         }
@@ -119,7 +113,8 @@ public class CashRegister implements Operations{
             throw new IllegalArgumentException("Недостаточно денег для операции");
         } else {
             System.out.println("Клиент " + client.getName() + " перевел(а) на счет №" +
-                    ((int) (Math.random() * 400_000) + 100_000) + " - " + client.getCash() + "$. " + Thread.currentThread().getName());
+                    ((int) (Math.random() * 400_000) + 100_000) + " - " + client.getCash() + "$. " +
+                    number + ": " + Thread.currentThread().getName());
             setSumCash(getSumCash() + client.getCash());
             client.setSum(resultSum);
         }
@@ -136,7 +131,8 @@ public class CashRegister implements Operations{
         if (resultSum < 0) {
             throw new IllegalArgumentException("Недостаточно денег для операции");
         } else {
-            System.out.println("Клиент " + client.getName() + " перевел(а) в BYN " + client.getCash() + "$. " + Thread.currentThread().getName());
+            System.out.println("Клиент " + client.getName() + " обменял(а) в BYN " + client.getCash() + "$. " +
+                    number  + ": " + Thread.currentThread().getName());
             setSumCash(getSumCash() + client.getCash());
             client.setSum(resultSum);
         }

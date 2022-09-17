@@ -11,11 +11,6 @@ public class Client {
         this.cash = cash;
     }
 
-    public Client(String name, int sum) {
-        this.name = name;
-        this.sum = sum;
-    }
-
     public String getName() {
         return name;
     }
